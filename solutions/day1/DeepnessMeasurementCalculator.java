@@ -1,4 +1,4 @@
-package pl.ngalda.adventofcode2021.calculator;
+package pl.ngalda.adventofcode2021.solutions.day1;
 
 import pl.ngalda.adventofcode2021.util.FileReader;
 
