@@ -1,6 +1,5 @@
 package pl.ngalda.adventofcode2021.solutions.day4;
 
-import io.vavr.Tuple2;
 import pl.ngalda.adventofcode2021.util.FileReader;
 
 import java.util.ArrayList;
@@ -53,12 +52,23 @@ public class BingoGameplay {
         }
     }
 
-    private static void printOnWin(BingoBoard bingoBoard, String drawnNumber, boolean bingo) {
+    private static void printOnLastToWin(BingoBoard bingoBoard, String drawnNumber, boolean bingo) {
         if (bingo) {
-            System.out.println("Bingo on number:" + drawnNumber + "sum of allNonMarkedNumbers " +
-                    calculateNonCrossedFieldsSum(bingoBoard) +
-                    "answer: " + (Integer.parseInt(drawnNumber) * calculateNonCrossedFieldsSum(bingoBoard)));
+            bingoBoard.setWon(true);
+            if(allOtherBoardsWon()) {
+                System.out.println("Bingo on number:" + drawnNumber + "sum of allNonMarkedNumbers " +
+                        calculateNonCrossedFieldsSum(bingoBoard) +
+                        "all other board done" +
+                        allOtherBoardsWon() +
+                        "answer: " + (Integer.parseInt(drawnNumber) * calculateNonCrossedFieldsSum(bingoBoard)));
+            }
         }
+    }
+
+    private static boolean allOtherBoardsWon() {
+        return boards
+                .stream()
+                .allMatch(BingoBoard::isWon);
     }
 
     private static void checkColumns(BingoBoard bingoBoard, String drawnNumber) {
@@ -70,7 +80,7 @@ public class BingoGameplay {
                     break;
                 }
             }
-            printOnWin(bingoBoard, drawnNumber, bingoOnRow);
+            printOnLastToWin(bingoBoard, drawnNumber, bingoOnRow);
         }
     }
 
@@ -83,7 +93,7 @@ public class BingoGameplay {
                     break;
                 }
             }
-            printOnWin(bingoBoard, drawnNumber, bingoOnRow);
+            printOnLastToWin(bingoBoard, drawnNumber, bingoOnRow);
         }
     }
 
