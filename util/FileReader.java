@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,5 +43,20 @@ public class FileReader {
                 .stream()
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
+    }
+
+    public static List<Integer> readComaSeperatedValuesAsInt(final String fileName)
+    {
+        String line = null;
+        try (InputStreamReader isr = new InputStreamReader(readFile(fileName));
+             BufferedReader br = new BufferedReader(isr))
+        {
+            line = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return line != null ? Arrays.stream(line.split(","))
+                .map(Integer::valueOf)
+                .toList() : null;
     }
 }
