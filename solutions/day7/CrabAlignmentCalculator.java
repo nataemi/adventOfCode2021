@@ -11,7 +11,7 @@ public class CrabAlignmentCalculator {
         int bestPosition = -1;
         int usedFuel = Integer.MAX_VALUE;
         for (int i = Collections.min(positions); i <= Collections.max(positions); i++) {
-            int calculatedFuel = calculateFuelNeededToMoveAllToPosition(positions, i);
+            int calculatedFuel = calculateFuelNeededToMoveAllToPositionWithGrowingCost(positions, i);
             if (calculatedFuel < usedFuel) {
                 bestPosition = i;
                 usedFuel = calculatedFuel;
@@ -23,6 +23,12 @@ public class CrabAlignmentCalculator {
     private static int calculateFuelNeededToMoveAllToPosition(List<Integer> positions, int i) {
         return positions.stream()
                 .mapToInt(x -> Math.abs(x - i))
+                .sum();
+    }
+
+    private static int calculateFuelNeededToMoveAllToPositionWithGrowingCost(List<Integer> positions, int i) {
+        return positions.stream()
+                .mapToInt(x -> Math.abs(x - i) * (Math.abs(x - i)+1) / 2)
                 .sum();
     }
 
